@@ -1,0 +1,64 @@
+class Solution {
+  public:
+  
+  int operation(int a,int b,string& s){
+      if(s=="+")return a+b;
+      else if(s=="-")return a-b;
+      else if(s=="*")return a*b;
+      else if(s=="^")return pow(a,b);
+      else{
+          return floor((float)a/b);
+      }
+  }
+ 
+  int priority(string s){
+      if(s=="+" or s=="-"){
+          return 1;
+      }
+      else if(s=="*" or s=="/")
+      return 2;
+      
+      else{
+          return 3;
+      }
+  }
+  
+    int evaluateInfix(vector<string>& s) {
+     int n=s.size();
+     stack<int>number;
+     stack<string>operators;
+     
+     for(int i=0;i<n;i++){
+         if(s[i]=="+" or s[i]=="-" or s[i]=="*" or s[i]=="/" or s[i]=="^"){
+             if(s[i]=="^")operators.push(s[i]);
+             
+             else{
+                 while(operators.size()>0 and priority(operators.top())>= priority(s[i])){
+                     string op=operators.top();
+                     operators.pop();
+                     
+                     int b=number.top();
+                     number.pop();
+                     int a=number.top();
+                     number.pop();
+                     number.push(operation(a,b,op));
+                 }
+                 operators.push(s[i]);
+             }
+         }
+         else{
+             number.push(stoi(s[i]));
+         }
+       }
+       while(operators.size()>0){
+           string op=operators.top();
+           operators.pop();
+           int b=number.top();
+            number.pop();
+            int a=number.top();
+            number.pop();
+            number.push(operation(a,b,op));
+       }
+       return number.top();
+    }
+};
