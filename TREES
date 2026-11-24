@@ -1,1 +1,62 @@
+/* Structure of Binary Tree Node
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
 
+    // Constructor
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};*/
+
+// Method 2 TC=O(N)
+class Solution {
+  public:
+    vector<int> levelOrder(Node *root) {
+      queue<Node*>q;
+      vector<int>ans;
+      if(root!=NULL)q.push(root);
+      
+      while(q.size()>0){
+          Node* front = q.front();
+          q.pop();
+          ans.push_back(front->data);
+          
+          if(front->left!=NULL)q.push(front->left);
+          if(front->right!=NULL)q.push(front->right);
+      }
+      return ans;
+    }
+};
+
+// //Method 1 TC=O(N*H)
+// class Solution {
+//   public:
+    
+//     int levels(Node* root){
+//     if(root == NULL)return 0;
+//     return(1+max(levels(root->left),levels(root->right)));
+//     }
+    
+//     void dfs(Node* root,vector<int>& ans,int level,int k){
+//         if(root == NULL)return;
+        
+//         if(level == k){
+//             ans.push_back(root->data); 
+//         }
+        
+//         dfs(root->left,ans,level+1,k);
+//         dfs(root->right,ans,level+1,k);
+//     }
+//     vector<int> levelOrder(Node *root) {
+//       vector<int>ans;
+//       int n= levels(root);
+//       for(int i=0;i<n;i++){
+//           dfs(root,ans,0,i);
+//       }
+//         return ans;
+//     }
+// };
